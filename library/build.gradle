@@ -23,6 +23,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     final SUPPORT_LIBRARY_VERSION = '23.3.0'
     compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:customtabs:$SUPPORT_LIBRARY_VERSION"
 }
