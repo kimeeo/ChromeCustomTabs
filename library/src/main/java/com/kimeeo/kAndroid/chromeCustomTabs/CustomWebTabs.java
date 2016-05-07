@@ -3,8 +3,14 @@ package com.kimeeo.kAndroid.chromeCustomTabs;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
@@ -57,7 +63,13 @@ public class CustomWebTabs
                 else
                     title =config.getActionButton().getTitle();
 
-                intentBuilder.setActionButton(config.getActionButton().getIcon(), title, config.getActionButton().getIntent());
+                Bitmap icon;
+                if(config.getActionButton().getIconRes()>0)
+                    icon =getIcon(activity,config.getActionButton().getIconRes(),config.getActionButton().getIconColor());
+                else
+                    icon = config.getActionButton().getIcon();
+
+                intentBuilder.setActionButton(icon, title, config.getActionButton().getIntent());
             }
 
             intentBuilder.setShowTitle(config.getShowTitle());
@@ -95,7 +107,14 @@ public class CustomWebTabs
                         title = activity.getResources().getString(action.getTitleRes());
                     else
                         title =action.getTitle();
-                    intentBuilder.addToolbarItem(action.getId(),action.getIcon(),title, action.getIntent());
+
+                    Bitmap icon;
+                    if(action.getIconRes()>0)
+                        icon =getIcon(activity,action.getIconRes(),action.getIconColor());
+                    else
+                        icon = action.getIcon();
+
+                    intentBuilder.addToolbarItem(action.getId(),icon,title, action.getIntent());
                 }
 
                 if(config.getSecondaryToolbarColor()>0)
@@ -108,6 +127,40 @@ public class CustomWebTabs
         else if (fallback != null)
             fallback.openUri(activity, uri);
     }
+
+    public Bitmap getIcon(Context context,@DrawableRes int iconId,int iconColor) {
+
+        Drawable drawable=context.getResources().getDrawable(iconId);
+
+        if (iconColor>0)
+            drawable.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP);
+
+        Bitmap bitmap = null;
+
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if(bitmapDrawable.getBitmap() != null) {
+                return bitmapDrawable.getBitmap();
+            }
+        }
+
+        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
+
+    public Bitmap getIcon(Context context,@DrawableRes int iconId) {
+        return getIcon(context,iconId,-1);
+    }
+
+
     public void open(Activity activity,Uri uri,CustomTabsIntent customTabsIntent) {
         open(activity,uri,customTabsIntent,null);
     }

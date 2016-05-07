@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.graphics.Bitmap;
 import android.support.annotation.AnimRes;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 
 import java.util.ArrayList;
@@ -159,6 +160,9 @@ public class TabConfig {
     }
     public class Action
     {
+        private int iconRes;
+
+        private int iconColor=0;
         private Bitmap icon;
         private int id;
         private String title;
@@ -193,6 +197,30 @@ public class TabConfig {
             this.titleRes =titleRes;
             this.intent=intent;
             this.icon = icon;
+        }
+
+        public Action(int id, @DrawableRes int iconRes, @StringRes int titleRes, PendingIntent intent)
+        {
+            this.id = id;
+            this.titleRes =titleRes;
+            this.intent=intent;
+            this.iconRes = iconRes;
+        }
+
+        public int getIconRes() {
+            return iconRes;
+        }
+
+        public int getIconColor() {
+            return iconColor;
+        }
+
+        public void setIconColor(int iconColor) {
+            this.iconColor = iconColor;
+        }
+
+        public void setIconRes(int iconRes) {
+            this.iconRes = iconRes;
         }
 
         public int getId() {
