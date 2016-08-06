@@ -52,6 +52,9 @@ public class CustomWebTabs
             customTabsIntent.launchUrl(activity, uri);
         }
     }
+    public void open(Activity activity,String uri,CustomTabsIntent customTabsIntent,CustomTabFallback fallback) {
+        open(activity,Uri.parse(uri),customTabsIntent,fallback);
+    }
     public void open(Activity activity,Uri uri,TabConfig config,CustomTabFallback fallback) {
         if(config!=null)
         {
@@ -127,49 +130,23 @@ public class CustomWebTabs
         else if (fallback != null)
             fallback.openUri(activity, uri);
     }
-
-    public Bitmap getIcon(Context context,@DrawableRes int iconId,int iconColor) {
-
-        Drawable drawable=context.getResources().getDrawable(iconId);
-
-        if (iconColor>0)
-            drawable.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP);
-
-        Bitmap bitmap = null;
-
-        if (drawable instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            if(bitmapDrawable.getBitmap() != null) {
-                return bitmapDrawable.getBitmap();
-            }
-        }
-
-        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
-            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
-        } else {
-            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        }
-
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-        return bitmap;
-    }
-
-    public Bitmap getIcon(Context context,@DrawableRes int iconId) {
-        return getIcon(context,iconId,-1);
+    public void open(Activity activity,String uri,TabConfig config,CustomTabFallback fallback) {
+        open(activity,Uri.parse(uri),config,fallback);
     }
 
 
-    public void open(Activity activity,Uri uri,CustomTabsIntent customTabsIntent) {
-        open(activity,uri,customTabsIntent,null);
-    }
+
+    public void open(Activity activity,Uri uri,CustomTabsIntent customTabsIntent) {open(activity,uri,customTabsIntent,null);}
+    public void open(Activity activity,String uri,CustomTabsIntent customTabsIntent) {open(activity,Uri.parse(uri),customTabsIntent,null);}
+
     public void open(Activity activity,TabConfig config,Uri uri) {
         open(activity,uri,config,null);
     }
-    public void open(Activity activity,Uri uri) {
-        open(activity,uri,new TabConfig(),null);
-    }
+    public void open(Activity activity,TabConfig config,String uri) {open(activity,Uri.parse(uri),config,null);}
+
+    public void open(Activity activity,Uri uri) {open(activity,uri,new TabConfig(),null);}
+    public void open(Activity activity,String uri) {open(activity,Uri.parse(uri),new TabConfig(),null);}
+
     public void bindCustomTabService(Context context) {
         if (mClient != null)
             return;
@@ -230,6 +207,37 @@ public class CustomWebTabs
     }
     public interface CustomTabFallback {
         void openUri(Activity activity, Uri uri);
+    }
+
+    public Bitmap getIcon(Context context,@DrawableRes int iconId,int iconColor) {
+
+        Drawable drawable=context.getResources().getDrawable(iconId);
+
+        if (iconColor>0)
+            drawable.setColorFilter(iconColor, PorterDuff.Mode.SRC_ATOP);
+
+        Bitmap bitmap = null;
+
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if(bitmapDrawable.getBitmap() != null) {
+                return bitmapDrawable.getBitmap();
+            }
+        }
+
+        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
+    public Bitmap getIcon(Context context,@DrawableRes int iconId) {
+        return getIcon(context,iconId,-1);
     }
 
 }
