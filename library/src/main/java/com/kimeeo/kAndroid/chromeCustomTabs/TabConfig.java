@@ -5,7 +5,10 @@ import android.graphics.Bitmap;
 import android.support.annotation.AnimRes;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.widget.RemoteViews;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +21,18 @@ public class TabConfig {
     private int secondaryToolbarColor;
     private int toolbarColorRes;
     private int secondaryToolbarColorRes;
+
+    private RemoteViews secondaryToolbarViews;
+    private int[] secondaryToolbarClickableIDs;
+    private PendingIntent secondaryToolbarIntent;
+
+    public void setSecondaryToolbarViews(@NonNull RemoteViews remoteViews,
+                                         @Nullable int[] clickableIDs, @Nullable PendingIntent pendingIntent) {
+
+        this.secondaryToolbarViews=remoteViews;
+        this.secondaryToolbarClickableIDs=clickableIDs;
+        this.secondaryToolbarIntent=pendingIntent;
+    }
 
     public int getToolbarColorRes() {
         return toolbarColorRes;
@@ -42,7 +57,7 @@ public class TabConfig {
     private TabAction action;
     private Animation animation;
 
-    private List<TabAction> toolbarItem;
+
 
     public void setToolbarColor(int color)
     {
@@ -83,18 +98,7 @@ public class TabConfig {
         menuItems.add(action);
     }
 
-    public List<TabAction> getToolbarItem() {
-        return toolbarItem;
-    }
 
-    public void setToolbarItem(List<TabAction> toolbarItem) {
-        this.toolbarItem = toolbarItem;
-    }
-    public void addToolbarItem(TabAction action) {
-        if(toolbarItem==null)
-            toolbarItem = new ArrayList<>();
-        toolbarItem.add(action);
-    }
     public Bitmap getCloseButton() {
         return closeButtonBitmap;
     }
@@ -129,6 +133,30 @@ public class TabConfig {
     {
         Animation animation = new Animation(enter,exit);
         setAnimation(animation);
+    }
+
+    public int[] getSecondaryToolbarClickableIDs() {
+        return secondaryToolbarClickableIDs;
+    }
+
+    public void setSecondaryToolbarClickableIDs(int[] secondaryToolbarClickableIDs) {
+        this.secondaryToolbarClickableIDs = secondaryToolbarClickableIDs;
+    }
+
+    public RemoteViews getSecondaryToolbarViews() {
+        return secondaryToolbarViews;
+    }
+
+    public void setSecondaryToolbarViews(RemoteViews secondaryToolbarViews) {
+        this.secondaryToolbarViews = secondaryToolbarViews;
+    }
+
+    public PendingIntent getSecondaryToolbarIntent() {
+        return secondaryToolbarIntent;
+    }
+
+    public void setSecondaryToolbarIntent(PendingIntent secondaryToolbarIntent) {
+        this.secondaryToolbarIntent = secondaryToolbarIntent;
     }
 
     public class Animation

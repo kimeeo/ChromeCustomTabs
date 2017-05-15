@@ -56,19 +56,18 @@ public class CustomWebTabs
         open(activity,Uri.parse(uri),customTabsIntent,fallback);
     }
     public void open(Activity activity,Uri uri,TabConfig config,CustomTabFallback fallback) {
-        if(config!=null)
-        {
+        if(config!=null) {
             CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
-            if(config.getActionButton()!=null) {
+            if (config.getActionButton() != null) {
                 String title;
-                if(config.getActionButton().getTitleRes()>0)
+                if (config.getActionButton().getTitleRes() > 0)
                     title = activity.getResources().getString(config.getActionButton().getTitleRes());
                 else
-                    title =config.getActionButton().getTitle();
+                    title = config.getActionButton().getTitle();
 
                 Bitmap icon;
-                if(config.getActionButton().getIconRes()>0)
-                    icon =getIcon(activity,config.getActionButton().getIconRes(),config.getActionButton().getIconColor());
+                if (config.getActionButton().getIconRes() > 0)
+                    icon = getIcon(activity, config.getActionButton().getIconRes(), config.getActionButton().getIconColor());
                 else
                     icon = config.getActionButton().getIcon();
 
@@ -77,54 +76,44 @@ public class CustomWebTabs
 
             intentBuilder.setShowTitle(config.getShowTitle());
 
-            if(config.getCloseButton()!=null)
+            if (config.getCloseButton() != null)
                 intentBuilder.setCloseButtonIcon(config.getCloseButton());
 
-            if(config.getToolbarColor()>0)
+            if (config.getToolbarColor() > 0)
                 intentBuilder.setToolbarColor(config.getToolbarColor());
-            else if(config.getToolbarColorRes()>0)
+            else if (config.getToolbarColorRes() > 0)
                 intentBuilder.setToolbarColor(activity.getResources().getColor(config.getToolbarColorRes()));
 
-            if(config.getMenuItems()!=null && config.getMenuItems().size()!=0)
-            {
+            if (config.getMenuItems() != null && config.getMenuItems().size() != 0) {
                 for (TabAction action : config.getMenuItems()) {
                     String title;
-                    if(action.getTitleRes()>0)
+                    if (action.getTitleRes() > 0)
                         title = activity.getResources().getString(action.getTitleRes());
                     else
-                        title =action.getTitle();
+                        title = action.getTitle();
                     intentBuilder.addMenuItem(title, action.getIntent());
                 }
             }
 
-            if(config.getAnimation()!=null) {
-                intentBuilder.setStartAnimations(activity,config.getAnimation().getEnter(),config.getAnimation().getExit());
-                intentBuilder.setExitAnimations(activity,config.getAnimation().getExit(),config.getAnimation().getEnter());
+            if (config.getAnimation() != null) {
+                intentBuilder.setStartAnimations(activity, config.getAnimation().getEnter(), config.getAnimation().getExit());
+                intentBuilder.setExitAnimations(activity, config.getAnimation().getExit(), config.getAnimation().getEnter());
             }
 
-            if(config.getToolbarItem()!=null && config.getToolbarItem().size()!=0)
-            {
-                for (TabAction action : config.getToolbarItem()) {
-                    String title;
-                    if(action.getTitleRes()>0)
-                        title = activity.getResources().getString(action.getTitleRes());
-                    else
-                        title =action.getTitle();
+            if (config.getSecondaryToolbarViews() != null && config.getSecondaryToolbarClickableIDs()!=null && config.getSecondaryToolbarIntent()!=null) {
 
-                    Bitmap icon;
-                    if(action.getIconRes()>0)
-                        icon =getIcon(activity,action.getIconRes(),action.getIconColor());
-                    else
-                        icon = action.getIcon();
+                intentBuilder.setSecondaryToolbarViews(config.getSecondaryToolbarViews(),config.getSecondaryToolbarClickableIDs(),config.getSecondaryToolbarIntent());
 
-                    intentBuilder.addToolbarItem(action.getId(),icon,title, action.getIntent());
-                }
 
-                if(config.getSecondaryToolbarColor()>0)
+                if (config.getSecondaryToolbarColor() > 0)
                     intentBuilder.setSecondaryToolbarColor(config.getSecondaryToolbarColor());
-                else if(config.getSecondaryToolbarColorRes()>0)
+                else if (config.getSecondaryToolbarColorRes() > 0)
                     intentBuilder.setSecondaryToolbarColor(activity.getResources().getColor(config.getSecondaryToolbarColorRes()));
             }
+
+
+
+
             open(activity,uri,intentBuilder.build(),fallback);
         }
         else if (fallback != null)
