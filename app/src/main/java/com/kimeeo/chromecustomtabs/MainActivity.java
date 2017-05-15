@@ -1,5 +1,7 @@
 package com.kimeeo.chromecustomtabs;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.kimeeo.kAndroid.chromeCustomTabs.CustomWebTabs;
+import com.kimeeo.kAndroid.chromeCustomTabs.TabAction;
+import com.kimeeo.kAndroid.chromeCustomTabs.TabConfig;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,7 +29,23 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CustomWebTabs.getInstance().open(MainActivity.this,Uri.parse("http://www.google.com"));
+                TabConfig tc=new TabConfig();
+                Intent intent =new Intent(Intent.ACTION_VIEW,Uri.parse("www.google.com"));
+                PendingIntent pendingIntent =PendingIntent.getActivity(MainActivity.this,0,intent,0);
+
+                tc.addMenuItems(new TabAction(1,"Hello1",pendingIntent));
+                tc.addMenuItems(new TabAction(1,"Hello2",pendingIntent));
+                tc.addMenuItems(new TabAction(1,"Hello3",pendingIntent));
+
+                tc.addToolbarItem(new TabAction(2,R.drawable.ic_launcher,R.string.app_name,pendingIntent));
+                tc.addToolbarItem(new TabAction(3,R.drawable.ic_launcher,R.string.app_name,pendingIntent));
+                tc.addToolbarItem(new TabAction(4,R.drawable.ic_launcher,R.string.app_name,pendingIntent));
+
+                tc.setActionButton(new TabAction(1,R.drawable.ic_launcher,R.string.app_name,pendingIntent));
+                tc.setShowTitle(true);
+                tc.setSecondaryToolbarColorRes(R.color.colorAccent);
+                tc.setToolbarColorRes(R.color.colorPrimary);
+                CustomWebTabs.getInstance().open(MainActivity.this,Uri.parse("http://www.google.com"),tc,null);
             }
         });
     }

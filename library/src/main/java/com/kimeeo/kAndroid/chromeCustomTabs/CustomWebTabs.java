@@ -87,7 +87,7 @@ public class CustomWebTabs
 
             if(config.getMenuItems()!=null && config.getMenuItems().size()!=0)
             {
-                for (TabConfig.Action action : config.getMenuItems()) {
+                for (TabAction action : config.getMenuItems()) {
                     String title;
                     if(action.getTitleRes()>0)
                         title = activity.getResources().getString(action.getTitleRes());
@@ -104,7 +104,7 @@ public class CustomWebTabs
 
             if(config.getToolbarItem()!=null && config.getToolbarItem().size()!=0)
             {
-                for (TabConfig.Action action : config.getToolbarItem()) {
+                for (TabAction action : config.getToolbarItem()) {
                     String title;
                     if(action.getTitleRes()>0)
                         title = activity.getResources().getString(action.getTitleRes());

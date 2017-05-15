@@ -36,13 +36,13 @@ public class TabConfig {
     }
 
     private boolean showTitle;
-    private List<Action> menuItems;
+    private List<TabAction> menuItems;
 
     private Bitmap closeButtonBitmap;
-    private Action action;
+    private TabAction action;
     private Animation animation;
 
-    private List<Action> toolbarItem;
+    private List<TabAction> toolbarItem;
 
     public void setToolbarColor(int color)
     {
@@ -68,29 +68,29 @@ public class TabConfig {
     {
         return showTitle;
     }
-    public List<Action> getMenuItems()
+    public List<TabAction> getMenuItems()
     {
         return menuItems;
     }
-    public void setMenuItems(List<Action> menus)
+    public void setMenuItems(List<TabAction> menus)
     {
         this.menuItems = menus;
     }
-    public void addMenuItems(Action action)
+    public void addMenuItems(TabAction action)
     {
         if(menuItems==null)
             menuItems = new ArrayList<>();
         menuItems.add(action);
     }
 
-    public List<Action> getToolbarItem() {
+    public List<TabAction> getToolbarItem() {
         return toolbarItem;
     }
 
-    public void setToolbarItem(List<Action> toolbarItem) {
+    public void setToolbarItem(List<TabAction> toolbarItem) {
         this.toolbarItem = toolbarItem;
     }
-    public void addToolbarItem(Action action) {
+    public void addToolbarItem(TabAction action) {
         if(toolbarItem==null)
             toolbarItem = new ArrayList<>();
         toolbarItem.add(action);
@@ -102,11 +102,11 @@ public class TabConfig {
     public void setCloseButton(Bitmap closeButtonBitmap) {
         this.closeButtonBitmap = closeButtonBitmap;
     }
-    public void setActionButton(Action action)
+    public void setActionButton(TabAction action)
     {
         this.action= action;
     }
-    public Action getActionButton()
+    public TabAction getActionButton()
     {
         return  action;
     }
@@ -157,110 +157,5 @@ public class TabConfig {
         }
 
 
-    }
-    public class Action
-    {
-        private int iconRes;
-
-        private int iconColor=0;
-        private Bitmap icon;
-        private int id;
-        private String title;
-        private int titleRes;
-        private PendingIntent intent;
-
-        public Action(int id,String title, PendingIntent intent)
-        {
-            this.id = id;
-            this.title =title;
-            this.intent=intent;
-        }
-
-        public Action(int id,Bitmap icon,String title, PendingIntent intent)
-        {
-            this.id = id;
-            this.title =title;
-            this.intent=intent;
-            this.icon = icon;
-        }
-
-        public Action(int id,@StringRes int titleRes, PendingIntent intent)
-        {
-            this.id = id;
-            this.titleRes =titleRes;
-            this.intent=intent;
-        }
-
-        public Action(int id,Bitmap icon,@StringRes int titleRes, PendingIntent intent)
-        {
-            this.id = id;
-            this.titleRes =titleRes;
-            this.intent=intent;
-            this.icon = icon;
-        }
-
-        public Action(int id, @DrawableRes int iconRes, @StringRes int titleRes, PendingIntent intent)
-        {
-            this.id = id;
-            this.titleRes =titleRes;
-            this.intent=intent;
-            this.iconRes = iconRes;
-        }
-
-        public int getIconRes() {
-            return iconRes;
-        }
-
-        public int getIconColor() {
-            return iconColor;
-        }
-
-        public void setIconColor(int iconColor) {
-            this.iconColor = iconColor;
-        }
-
-        public void setIconRes(int iconRes) {
-            this.iconRes = iconRes;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public PendingIntent getIntent() {
-            return intent;
-        }
-
-        public void setIntent(PendingIntent intent) {
-            this.intent = intent;
-        }
-
-        public Bitmap getIcon() {
-            return icon;
-        }
-
-        public void setIcon(Bitmap icon) {
-            this.icon = icon;
-        }
-
-        public int getTitleRes() {
-            return titleRes;
-        }
-
-        public void setTitleRes(@StringRes int titleRes) {
-            this.titleRes = titleRes;
-        }
     }
 }
